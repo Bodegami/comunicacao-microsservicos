@@ -1,0 +1,37 @@
+#  Execute os comandos 'docker run' abaixo ou execute o docker-compose: docker-compose -f stack-microsservices.yml up
+
+# docker run --name auth-db -p 5432:5432 -e POSTGRES_DB=auth-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
+# docker run --name product-db -p 5432:5432 -e POSTGRES_DB=product-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
+
+version: '3.1'
+
+services:
+
+  auth-db:
+    image: postgres:11
+    restart: always
+    hostname: auth-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: auth-db
+    ports:
+      - 5432:5432
+      
+  product-db:
+    image: postgres:11
+    restart: always
+    hostname: product-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: product-db
+    ports:
+      - 5433:5432
+      
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
