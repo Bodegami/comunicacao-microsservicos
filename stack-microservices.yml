@@ -2,6 +2,8 @@
 
 # docker run --name auth-db -p 5432:5432 -e POSTGRES_DB=auth-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
 # docker run --name product-db -p 5432:5432 -e POSTGRES_DB=product-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
+# docker run --name sales-db -p 28017:28017 -p 27017:27017 -e MONGODB_DATABASE=sales-db -e MONGODB_USER=admin -e MONGODB_PASS=123456 tutum/mongodb
+# docker run --name sales_rabbit -p 5672:5672 -p 25676:25676 -p 15672:15672 - rabbitmp:3-management
 
 version: '3.1'
 
@@ -9,8 +11,8 @@ services:
 
   auth-db:
     image: postgres:11
+    container_name: auth-db
     restart: always
-    hostname: auth-db
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 123456
@@ -20,8 +22,8 @@ services:
       
   product-db:
     image: postgres:11
+    container_name: product-db
     restart: always
-    hostname: product-db
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 123456
@@ -29,9 +31,24 @@ services:
     ports:
       - 5433:5432
       
-
-  adminer:
-    image: adminer
+  sales-db:
+    image: tutum/mongodb
+    container_name: sales-db
     restart: always
+    environment:
+      MONGODB_USER: admin
+      MONGODB_PASS: 123456
+      MONGODB_DATABASE: sales
     ports:
-      - 8080:8080
+      - 28017:28017
+      - 27017:27017
+      
+  sales_rabbit:
+    image: rabbitmq:3-management
+    container_name: sales_rabbit
+    ports:
+      - 5673:5673
+      - 25676:25676
+      - 15672:15672
+      
+
