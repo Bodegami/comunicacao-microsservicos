@@ -1,0 +1,8 @@
+Yarn commands:
+
+
+yarn init -y - cria o arquivo package.json atribuindo 'sim' para todos campos
+
+yarn add 'nome_lib' - adiciona a lib ao projeto
+
+yarn startDev - executa o projeto atraves do script definido no package.json
