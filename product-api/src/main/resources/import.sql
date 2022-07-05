@@ -1,0 +1,10 @@
+INSERT INTO category (ID, DESCRIPTION) VALUES (1, 'Comic Books');
+INSERT INTO category (ID, DESCRIPTION) VALUES (2, 'Movies');
+INSERT INTO category (ID, DESCRIPTION) VALUES (3, 'Books');
+
+INSERT INTO supplier (ID, NAME) VALUES (1, 'Panini Comics');
+INSERT INTO supplier (ID, NAME) VALUES (2, 'Amazon');
+
+INSERT INTO product (ID, NAME, QUANTITYAVAILABLE, FK_SUPPLIER, FK_CATEGORY) VALUES (1, 'Crise nas Terras Infinitas', 10, 1, 1);
+INSERT INTO product (ID, NAME, QUANTITYAVAILABLE, FK_SUPPLIER, FK_CATEGORY) VALUES (2, 'Interstelar', 5, 2, 2);
+INSERT INTO product (ID, NAME, QUANTITYAVAILABLE, FK_SUPPLIER, FK_CATEGORY) VALUES (3, 'Harry Potter e a Pedra Filosofal', 3, 2, 3);
