@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionGlobalHandler {
 
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<?> handleValidationException(ValidationException validationException) {
+    public ResponseEntity<ExceptionDetails> handleValidationException(ValidationException validationException) {
         var details = new ExceptionDetails();
         details.setStatus(HttpStatus.BAD_REQUEST.value());
         details.setMessage(validationException.getMessage());

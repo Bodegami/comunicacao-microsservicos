@@ -1,5 +1,7 @@
-package br.com.curso.productapi.modules.produto.model;
+package br.com.curso.productapi.modules.product.model;
 
+import br.com.curso.productapi.modules.category.model.Category;
+import br.com.curso.productapi.modules.supplier.model.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

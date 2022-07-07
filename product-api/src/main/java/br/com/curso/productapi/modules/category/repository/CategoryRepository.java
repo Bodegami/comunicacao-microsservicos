@@ -1,6 +1,6 @@
-package br.com.curso.productapi.modules.produto.repository;
+package br.com.curso.productapi.modules.category.repository;
 
-import br.com.curso.productapi.modules.produto.model.Category;
+import br.com.curso.productapi.modules.category.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,10 @@
-package br.com.curso.productapi.modules.produto.service;
+package br.com.curso.productapi.modules.category.service;
 
 import br.com.curso.productapi.config.exception.ValidationException;
-import br.com.curso.productapi.modules.produto.dto.CategoryRequest;
-import br.com.curso.productapi.modules.produto.dto.CategoryResponse;
-import br.com.curso.productapi.modules.produto.model.Category;
-import br.com.curso.productapi.modules.produto.repository.CategoryRepository;
+import br.com.curso.productapi.modules.category.dto.CategoryRequest;
+import br.com.curso.productapi.modules.category.dto.CategoryResponse;
+import br.com.curso.productapi.modules.category.model.Category;
+import br.com.curso.productapi.modules.category.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
