@@ -5,6 +5,7 @@ import br.com.curso.productapi.modules.category.dto.CategoryRequest;
 import br.com.curso.productapi.modules.category.dto.CategoryResponse;
 import br.com.curso.productapi.modules.category.model.Category;
 import br.com.curso.productapi.modules.category.repository.CategoryRepository;
+import br.com.curso.productapi.modules.supplier.model.Supplier;
 import org.springframework.stereotype.Service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -16,6 +17,12 @@ public class CategoryService {
 
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+    }
+
+    public Category findById(Integer id) {
+        return categoryRepository
+                .findById(id)
+                .orElseThrow(() -> new ValidationException("There's no category for the given ID..."));
     }
 
     public CategoryResponse save(CategoryRequest categoryRequest) {

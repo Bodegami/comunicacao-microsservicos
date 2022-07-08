@@ -18,6 +18,12 @@ public class SupplierService {
         this.supplierRepository = supplierRepository;
     }
 
+    public Supplier findById(Integer id) {
+        return supplierRepository
+                .findById(id)
+                .orElseThrow(() -> new ValidationException("There's no supplier for the given ID..."));
+    }
+
     public SupplierResponse save(SupplierRequest supplierRequest) {
         validateSupplierNameInformed(supplierRequest);
         var supplier = supplierRepository.save(Supplier.of(supplierRequest));
