@@ -1,5 +1,6 @@
 package br.com.curso.productapi.modules.supplier.controller;
 
+import br.com.curso.productapi.config.exception.SuccessResponse;
 import br.com.curso.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.curso.productapi.modules.supplier.dto.SupplierResponse;
 import br.com.curso.productapi.modules.supplier.service.SupplierService;
@@ -35,6 +36,11 @@ public class SupplierController {
     @GetMapping("/{id}")
     public SupplierResponse findById(@PathVariable(name = "id") Integer supplierId) {
         return supplierService.findByIdResponse(supplierId);
+    }
+
+    @DeleteMapping("/{id}")
+    public SuccessResponse delete(@PathVariable(name = "id") Integer supplierId) {
+        return supplierService.delete(supplierId);
     }
 
 }

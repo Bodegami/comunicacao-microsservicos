@@ -1,5 +1,6 @@
 package br.com.curso.productapi.modules.category.controller;
 
+import br.com.curso.productapi.config.exception.SuccessResponse;
 import br.com.curso.productapi.modules.category.dto.CategoryRequest;
 import br.com.curso.productapi.modules.category.dto.CategoryResponse;
 import br.com.curso.productapi.modules.category.service.CategoryService;
@@ -37,4 +38,8 @@ public class CategoryController {
         return categoryService.findByIdResponse(categoryId);
     }
 
+    @DeleteMapping("/{id}")
+    public SuccessResponse delete(@PathVariable(name = "id") Integer categoryId) {
+        return categoryService.delete(categoryId);
+    }
 }

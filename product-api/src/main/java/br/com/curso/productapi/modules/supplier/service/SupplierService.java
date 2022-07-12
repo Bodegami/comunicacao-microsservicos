@@ -1,6 +1,8 @@
 package br.com.curso.productapi.modules.supplier.service;
 
+import br.com.curso.productapi.config.exception.SuccessResponse;
 import br.com.curso.productapi.config.exception.ValidationException;
+import br.com.curso.productapi.modules.product.service.ProductService;
 import br.com.curso.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.curso.productapi.modules.supplier.dto.SupplierResponse;
 import br.com.curso.productapi.modules.supplier.model.Supplier;
@@ -17,8 +19,11 @@ public class SupplierService {
 
     private final SupplierRepository supplierRepository;
 
-    public SupplierService(SupplierRepository supplierRepository) {
+    private final ProductService productService;
+
+    public SupplierService(SupplierRepository supplierRepository, ProductService productService) {
         this.supplierRepository = supplierRepository;
+        this.productService = productService;
     }
 
     public List<SupplierResponse> findByAll() {
@@ -45,10 +50,7 @@ public class SupplierService {
     }
 
     public Supplier findById(Integer id) {
-        if (isEmpty(id)) {
-            throw new ValidationException(("The supplier ID was not informed..."));
-        }
-
+        validateInformedId(id);
         return supplierRepository
                 .findById(id)
                 .orElseThrow(() -> new ValidationException("There's no supplier for the given ID..."));
@@ -63,6 +65,21 @@ public class SupplierService {
     private void validateSupplierNameInformed(SupplierRequest supplierRequest) {
         if (isEmpty(supplierRequest.getName())) {
             throw new ValidationException("The supplier's name was not informed...");
+        }
+    }
+
+    public SuccessResponse delete(Integer id) {
+        validateInformedId(id);
+        if (productService.existsBySupplierId(id)) {
+            throw new ValidationException("you cannot delete this supplier because it's already defined by a product.");
+        }
+        supplierRepository.deleteById(id);
+        return SuccessResponse.create("The supplier was deleted.");
+    }
+
+    private void validateInformedId(Integer id) {
+        if (isEmpty(id)) {
+            throw new ValidationException(("The supplier ID was not informed..."));
         }
     }
 
