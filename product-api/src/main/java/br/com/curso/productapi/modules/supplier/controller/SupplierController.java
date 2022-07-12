@@ -4,6 +4,7 @@ import br.com.curso.productapi.config.exception.SuccessResponse;
 import br.com.curso.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.curso.productapi.modules.supplier.dto.SupplierResponse;
 import br.com.curso.productapi.modules.supplier.service.SupplierService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,11 +13,9 @@ import java.util.List;
 @RequestMapping("/api/supplier")
 public class SupplierController {
 
-    private final SupplierService supplierService;
+    @Autowired
+    private SupplierService supplierService;
 
-    public SupplierController(SupplierService supplierService) {
-        this.supplierService = supplierService;
-    }
 
     @PostMapping
     public SupplierResponse save(@RequestBody SupplierRequest supplierRequest) {
@@ -36,6 +35,12 @@ public class SupplierController {
     @GetMapping("/{id}")
     public SupplierResponse findById(@PathVariable(name = "id") Integer supplierId) {
         return supplierService.findByIdResponse(supplierId);
+    }
+
+    @PutMapping("/{id}")
+    public SupplierResponse update(@PathVariable(name = "id") Integer supplierId,
+                                  @RequestBody SupplierRequest supplierRequest) {
+        return supplierService.update(supplierRequest, supplierId);
     }
 
     @DeleteMapping("/{id}")

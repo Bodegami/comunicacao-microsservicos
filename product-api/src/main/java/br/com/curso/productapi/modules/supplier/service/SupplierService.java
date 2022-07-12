@@ -7,6 +7,7 @@ import br.com.curso.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.curso.productapi.modules.supplier.dto.SupplierResponse;
 import br.com.curso.productapi.modules.supplier.model.Supplier;
 import br.com.curso.productapi.modules.supplier.repository.SupplierRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +18,12 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Service
 public class SupplierService {
 
-    private final SupplierRepository supplierRepository;
+    @Autowired
+    private SupplierRepository supplierRepository;
 
-    private final ProductService productService;
+    @Autowired
+    private ProductService productService;
 
-    public SupplierService(SupplierRepository supplierRepository, ProductService productService) {
-        this.supplierRepository = supplierRepository;
-        this.productService = productService;
-    }
 
     public List<SupplierResponse> findByAll() {
         return supplierRepository
@@ -59,6 +58,15 @@ public class SupplierService {
     public SupplierResponse save(SupplierRequest supplierRequest) {
         validateSupplierNameInformed(supplierRequest);
         var supplier = supplierRepository.save(Supplier.of(supplierRequest));
+        return SupplierResponse.of(supplier);
+    }
+
+    public SupplierResponse update(SupplierRequest supplierRequest, Integer id) {
+        validateInformedId(id);
+        validateSupplierNameInformed(supplierRequest);
+        var supplier = Supplier.of(supplierRequest);
+        supplier.setId(id);
+        supplierRepository.save(supplier);
         return SupplierResponse.of(supplier);
     }
 

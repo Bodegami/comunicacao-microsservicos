@@ -1,13 +1,10 @@
 package br.com.curso.productapi.modules.product.controller;
 
 import br.com.curso.productapi.config.exception.SuccessResponse;
-import br.com.curso.productapi.modules.category.dto.CategoryRequest;
-import br.com.curso.productapi.modules.category.dto.CategoryResponse;
-import br.com.curso.productapi.modules.category.service.CategoryService;
 import br.com.curso.productapi.modules.product.dto.ProductRequest;
 import br.com.curso.productapi.modules.product.dto.ProductResponse;
 import br.com.curso.productapi.modules.product.service.ProductService;
-import br.com.curso.productapi.modules.supplier.dto.SupplierResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +13,9 @@ import java.util.List;
 @RequestMapping("/api/product")
 public class ProductController {
 
-    private final ProductService productService;
+    @Autowired
+    private ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
 
     @PostMapping
     public ProductResponse save(@RequestBody ProductRequest productRequest) {
@@ -50,6 +45,12 @@ public class ProductController {
     @GetMapping("/supplier/{supplierId}")
     public List<ProductResponse> findBySupplierId(@PathVariable Integer supplierId) {
         return productService.findBySupplierId(supplierId);
+    }
+
+    @PutMapping("/{id}")
+    public ProductResponse update(@PathVariable(name = "id") Integer productId,
+                                   @RequestBody ProductRequest productRequest) {
+        return productService.update(productRequest, productId);
     }
 
     @DeleteMapping("/{id}")

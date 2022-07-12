@@ -4,6 +4,7 @@ import br.com.curso.productapi.config.exception.SuccessResponse;
 import br.com.curso.productapi.modules.category.dto.CategoryRequest;
 import br.com.curso.productapi.modules.category.dto.CategoryResponse;
 import br.com.curso.productapi.modules.category.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,11 +13,9 @@ import java.util.List;
 @RequestMapping("/api/category")
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
 
     @PostMapping
     public CategoryResponse save(@RequestBody CategoryRequest categoryRequest) {
@@ -38,8 +37,14 @@ public class CategoryController {
         return categoryService.findByIdResponse(categoryId);
     }
 
-    @DeleteMapping("/{id}")
-    public SuccessResponse delete(@PathVariable(name = "id") Integer categoryId) {
-        return categoryService.delete(categoryId);
+    @PutMapping("{id}")
+    public CategoryResponse update(@RequestBody CategoryRequest request,
+                                   @PathVariable Integer id) {
+        return categoryService.update(request, id);
+    }
+
+    @DeleteMapping("{id}")
+    public SuccessResponse delete(@PathVariable Integer id) {
+        return categoryService.delete(id);
     }
 }

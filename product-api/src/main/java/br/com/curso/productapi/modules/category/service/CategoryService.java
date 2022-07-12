@@ -7,6 +7,7 @@ import br.com.curso.productapi.modules.category.dto.CategoryResponse;
 import br.com.curso.productapi.modules.category.model.Category;
 import br.com.curso.productapi.modules.category.repository.CategoryRepository;
 import br.com.curso.productapi.modules.product.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +18,12 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Service
 public class CategoryService {
 
-    private final CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-    private final ProductService productService;
+    @Autowired
+    private ProductService productService;
 
-    public CategoryService(CategoryRepository categoryRepository, ProductService productService) {
-        this.categoryRepository = categoryRepository;
-        this.productService = productService;
-    }
 
     public List<CategoryResponse> findByAll() {
         return categoryRepository
@@ -59,6 +58,15 @@ public class CategoryService {
     public CategoryResponse save(CategoryRequest categoryRequest) {
         validateCategoryNameInformed(categoryRequest);
         var category = categoryRepository.save(Category.of(categoryRequest));
+        return CategoryResponse.of(category);
+    }
+
+    public CategoryResponse update(CategoryRequest categoryRequest, Integer id) {
+        validateInformedId(id);
+        validateCategoryNameInformed(categoryRequest);
+        var category = Category.of(categoryRequest);
+        category.setId(id);
+        categoryRepository.save(category);
         return CategoryResponse.of(category);
     }
 

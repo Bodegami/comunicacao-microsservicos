@@ -8,8 +8,10 @@ import br.com.curso.productapi.modules.product.dto.ProductResponse;
 import br.com.curso.productapi.modules.product.model.Product;
 import br.com.curso.productapi.modules.product.repository.ProductRepository;
 import br.com.curso.productapi.modules.supplier.service.SupplierService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,16 +22,15 @@ public class ProductService {
 
     private static final Integer ZERO = 0;
 
-    private final ProductRepository productRepository;
-    private final SupplierService supplierService;
-    private final CategoryService categoryService;
+    @Autowired
+    private ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository, SupplierService supplierService,
-                          CategoryService categoryService) {
-        this.productRepository = productRepository;
-        this.supplierService = supplierService;
-        this.categoryService = categoryService;
-    }
+    @Autowired
+    private SupplierService supplierService;
+
+    @Autowired
+    private CategoryService categoryService;
+
 
     public List<ProductResponse> findByAll() {
         return productRepository
@@ -90,6 +91,22 @@ public class ProductService {
         var supplier = supplierService.findById(productRequest.getSupplierId());
         var category = categoryService.findById(productRequest.getCategoryId());
         var product = productRepository.save(Product.of(productRequest, supplier, category));
+        return ProductResponse.of(product);
+    }
+
+    public ProductResponse update(ProductRequest productRequest, Integer id) {
+        validateProductDataInformed(productRequest);
+        validateInformedId(id);
+        validateCategoryAndSupplierIdInformed(productRequest);
+
+        var supplier = supplierService.findById(productRequest.getSupplierId());
+        var category = categoryService.findById(productRequest.getCategoryId());
+        var product = Product.of(productRequest, supplier, category);
+
+        product.setId(id);
+        product.setCreatedAt(LocalDateTime.now());
+        
+        productRepository.save(product);
         return ProductResponse.of(product);
     }
 
